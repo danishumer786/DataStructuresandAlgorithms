@@ -1,0 +1,409 @@
+🐍 Python Slicing Tricks - Complete Guide (Basic to Advanced)
+================================================================
+
+Python slicing is one of the most powerful features for manipulating sequences!
+Syntax: sequence[start:stop:step]
+
+===============================================
+1. BASIC SLICING TRICKS
+===============================================
+
+arr[start : end : step]
+start → kaha se shuru karna hai
+
+end → kaha tak (but end index excluded hota hai)
+
+step → har kitne element chhod ke agla lena hai
+
+Normal indices left se count hote hain:
+Index:   0 1 2 3 4 5 6 7 8 9
+Value:   0 1 2 3 4 5 6 7 8 9
+
+Negative indices right se count hote hain:
+Index: -10 -9 -8 -7 -6 -5 -4 -3 -2 -1
+Value:   0  1  2  3  4  5  6  7  8  9
+
+# Setup - our test array
+arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Basic slicing
+print("Original array:", arr)
+print("First 5 elements:", arr[:5])          # [0, 1, 2, 3, 4]
+print("Last 5 elements:", arr[-5:])          # [5, 6, 7, 8, 9]
+print("Middle elements:", arr[2:8])          # [2, 3, 4, 5, 6, 7]
+print("All elements:", arr[:])               # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Step-based slicing
+print("Every 2nd element:", arr[::2])        # [0, 2, 4, 6, 8]
+print("Odd indices:", arr[1::2])             # [1, 3, 5, 7, 9]
+print("Every 3rd element:", arr[::3])        # [0, 3, 6, 9]
+print("Slice with step:", arr[2:8:2])        # [2, 4, 6]
+
+# Reverse slicing
+print("Reverse entire array:", arr[::-1])    # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+
+===============================================
+2. NEGATIVE INDEXING TRICKS
+===============================================
+
+# Negative indices count from the end
+arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+print("Last element:", arr[-1])              # 9
+print("Second last:", arr[-2])               # 8
+print("Last 3 elements:", arr[-3:])          # [7, 8, 9]
+print("All except last:", arr[:-1])          # [0, 1, 2, 3, 4, 5, 6, 7, 8]
+print("All except first:", arr[1:])          # [1, 2, 3, 4, 5, 6, 7, 8, 9]
+print("Exclude first and last:", arr[1:-1])  # [1, 2, 3, 4, 5, 6, 7, 8]
+
+# Negative steps (reverse with range)
+print("Reverse from index 8 to 2:", arr[8:2:-1])    # [8, 7, 6, 5, 4, 3]
+print("Reverse last 5:", arr[-1:-6:-1])             # [9, 8, 7, 6, 5]
+
+===============================================
+3. STRING SLICING TRICKS
+===============================================
+
+text = "Hello World! This is Python."
+
+# Basic string slicing
+print("First 5 chars:", text[:5])           # "Hello"
+print("Last 7 chars:", text[-7:])           # "Python."
+print("Every 2nd char:", text[::2])         # "HloWrd hsPto."
+print("Reverse string:", text[::-1])        # ".nohtyP si sihT !dlroW olleH"
+
+# Extract words using slicing
+words = text.split()
+print("First word:", words[0])               # "Hello"
+print("Last word:", words[-1])              # "Python."
+print("Middle words:", words[1:-1])         # ['World!', 'This', 'is']
+
+# Remove punctuation using slicing
+if text[-1] in ".,!?":
+    clean_text = text[:-1]
+    print("Without punctuation:", clean_text)  # "Hello World! This is Python"
+
+===============================================
+4. ADVANCED SLICING PATTERNS
+===============================================
+
+# 4.1 Matrix/2D Array Slicing
+matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12]
+]
+
+print("First row:", matrix[0])               # [1, 2, 3, 4]
+print("Last row:", matrix[-1])              # [9, 10, 11, 12]
+print("First two rows:", matrix[:2])        # [[1, 2, 3, 4], [5, 6, 7, 8]]
+print("First column:", [row[0] for row in matrix])  # [1, 5, 9]
+print("Last column:", [row[-1] for row in matrix])  # [4, 8, 12]
+
+# Extract submatrix
+print("2x2 submatrix:")
+for row in matrix[:2]:
+    print(row[:2])                          # [1, 2] and [5, 6]
+
+# 4.2 Palindrome Checking
+def is_palindrome(s):
+    return s == s[::-1]
+
+print("'racecar' is palindrome:", is_palindrome("racecar"))  # True
+print("'hello' is palindrome:", is_palindrome("hello"))      # False
+
+# 4.3 Rotate Array/String
+def rotate_left(arr, k):
+    return arr[k:] + arr[:k]
+
+def rotate_right(arr, k):
+    return arr[-k:] + arr[:-k]
+
+arr = [1, 2, 3, 4, 5]
+print("Rotate left by 2:", rotate_left(arr, 2))    # [3, 4, 5, 1, 2]
+print("Rotate right by 2:", rotate_right(arr, 2))  # [4, 5, 1, 2, 3]
+
+===============================================
+5. DSA-SPECIFIC SLICING TRICKS
+===============================================
+
+# 5.1 Sliding Window Implementation
+def max_sum_subarray(arr, k):
+    """Find maximum sum of k consecutive elements"""
+    n = len(arr)
+    if n < k:
+        return None
+    
+    # Calculate sum of first window
+    max_sum = sum(arr[:k])
+    window_sum = max_sum
+    
+    # Slide the window
+    for i in range(1, n - k + 1):
+        window_sum = window_sum - arr[i-1] + arr[i+k-1]
+        max_sum = max(max_sum, window_sum)
+    
+    return max_sum
+
+arr = [1, 4, 2, 10, 23, 3, 1, 0, 20]
+print("Max sum of 4 consecutive elements:", max_sum_subarray(arr, 4))  # 39
+
+# 5.2 Two Pointers Technique Helper
+def reverse_portion(arr, start, end):
+    """Reverse portion of array using slicing"""
+    arr[start:end+1] = arr[start:end+1][::-1]
+    return arr
+
+test_arr = [1, 2, 3, 4, 5, 6]
+print("Reverse middle portion:", reverse_portion(test_arr.copy(), 1, 4))  # [1, 5, 4, 3, 2, 6]
+
+# 5.3 Quick Array Modifications
+def remove_duplicates_keep_order(arr):
+    """Remove duplicates while maintaining order"""
+    seen = set()
+    result = []
+    for item in arr:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
+
+# Using slicing for quick operations
+arr = [1, 2, 2, 3, 3, 4, 5, 5]
+unique_arr = list(dict.fromkeys(arr))  # Maintains order
+print("Remove duplicates:", unique_arr)  # [1, 2, 3, 4, 5]
+
+===============================================
+6. PERFORMANCE OPTIMIZATION TRICKS
+===============================================
+
+# 6.1 Memory-efficient slicing
+import sys
+
+# Create large list
+large_list = list(range(1000000))
+
+# Efficient: using itertools.islice for large data
+from itertools import islice
+chunk = list(islice(large_list, 1000, 2000))  # More memory efficient than large_list[1000:2000]
+
+# 6.2 In-place operations using slicing
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Reverse in place
+arr[:] = arr[::-1]
+print("Reversed in place:", arr)  # [9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+# Replace middle elements
+arr[2:7] = [0, 0, 0]
+print("Replace middle:", arr)     # [9, 8, 0, 0, 0, 2, 1]
+
+# Insert elements
+arr[2:2] = [100, 200]
+print("Insert elements:", arr)    # [9, 8, 100, 200, 0, 0, 0, 2, 1]
+
+===============================================
+7. ADVANCED STRING MANIPULATION
+===============================================
+
+# 7.1 Extract file extensions
+filenames = ["document.pdf", "image.jpg", "script.py", "data.csv"]
+extensions = [name[name.rfind('.'):] for name in filenames]
+print("Extensions:", extensions)  # ['.pdf', '.jpg', '.py', '.csv']
+
+# 7.2 Clean and process text
+text = "  Hello, World! How are you?  "
+cleaned = text.strip()                    # Remove whitespace
+no_punctuation = ''.join(c for c in cleaned if c.isalnum() or c.isspace())
+print("Cleaned text:", no_punctuation)   # "Hello World How are you"
+
+# 7.3 Extract substrings between delimiters
+data = "Name:John,Age:25,City:NewYork"
+pairs = data.split(',')
+info = {}
+for pair in pairs:
+    key, value = pair.split(':')
+    info[key] = value
+print("Extracted info:", info)  # {'Name': 'John', 'Age': '25', 'City': 'NewYork'}
+
+===============================================
+8. COMPETITIVE PROGRAMMING SLICING TRICKS
+===============================================
+
+# 8.1 Quick array rotations
+def rotate_array_optimal(arr, k):
+    """Rotate array with minimal operations"""
+    n = len(arr)
+    k = k % n
+    return arr[n-k:] + arr[:n-k]
+
+# 8.2 Reverse words in a string
+def reverse_words(s):
+    """Reverse words using slicing"""
+    return ' '.join(s.split()[::-1])
+
+sentence = "Hello World Python"
+print("Reversed words:", reverse_words(sentence))  # "Python World Hello"
+
+# 8.3 Zigzag pattern
+def zigzag_slice(arr):
+    """Create zigzag pattern using slicing"""
+    even_pos = arr[::2]   # Elements at even positions
+    odd_pos = arr[1::2]   # Elements at odd positions
+    return even_pos + odd_pos[::-1]
+
+arr = [1, 2, 3, 4, 5, 6]
+print("Zigzag pattern:", zigzag_slice(arr))  # [1, 3, 5, 6, 4, 2]
+
+===============================================
+9. TRICKY EDGE CASES & GOTCHAS
+===============================================
+
+# 9.1 Empty slices
+arr = [1, 2, 3, 4, 5]
+print("Empty slice:", arr[10:20])           # [] (no error!)
+print("Reverse empty:", arr[20:10:-1])      # [] (no error!)
+
+# 9.2 Out of bounds slicing (Python is forgiving)
+print("Out of bounds:", arr[:100])          # [1, 2, 3, 4, 5] (no error!)
+print("Negative out of bounds:", arr[-100:]) # [1, 2, 3, 4, 5] (no error!)
+
+# 9.3 Step cannot be zero
+try:
+    print(arr[::0])  # This will raise ValueError
+except ValueError as e:
+    print("Error:", e)  # Error: slice step cannot be zero
+
+# 9.4 Slicing creates new objects (shallow copy)
+original = [[1, 2], [3, 4]]
+sliced = original[:]
+sliced[0][0] = 999
+print("Original affected:", original)  # [[999, 2], [3, 4]] - inner lists are shared!
+
+# 9.5 Proper deep copy for nested structures
+import copy
+original = [[1, 2], [3, 4]]
+deep_copied = copy.deepcopy(original)
+deep_copied[0][0] = 999
+print("Original safe:", original)  # [[1, 2], [3, 4]] - unchanged
+
+===============================================
+10. REAL-WORLD APPLICATIONS
+===============================================
+
+# 10.1 Data processing
+def process_csv_line(line):
+    """Process CSV line using slicing"""
+    # Remove newline and split
+    fields = line.strip().split(',')
+    
+    # Extract specific fields
+    name = fields[0]
+    age = int(fields[1]) if len(fields) > 1 else 0
+    email = fields[2] if len(fields) > 2 else ""
+    
+    return {'name': name, 'age': age, 'email': email}
+
+csv_line = "John Doe,30,john@email.com\n"
+result = process_csv_line(csv_line)
+print("Processed CSV:", result)
+
+# 10.2 Log file analysis
+def extract_timestamp(log_line):
+    """Extract timestamp from log line"""
+    # Format: [2023-11-01 14:30:25] INFO: Message
+    if log_line.startswith('[') and '] ' in log_line:
+        end_bracket = log_line.find(']')
+        return log_line[1:end_bracket]
+    return None
+
+log = "[2023-11-01 14:30:25] INFO: User logged in"
+timestamp = extract_timestamp(log)
+print("Timestamp:", timestamp)  # "2023-11-01 14:30:25"
+
+# 10.3 URL parsing
+def parse_url(url):
+    """Simple URL parsing using slicing"""
+    # Remove protocol
+    if '://' in url:
+        url = url[url.find('://') + 3:]
+    
+    # Extract domain
+    if '/' in url:
+        domain = url[:url.find('/')]
+        path = url[url.find('/'):]
+    else:
+        domain = url
+        path = '/'
+    
+    return {'domain': domain, 'path': path}
+
+url = "https://www.example.com/path/to/page"
+parsed = parse_url(url)
+print("Parsed URL:", parsed)  # {'domain': 'www.example.com', 'path': '/path/to/page'}
+
+===============================================
+11. MEMORY AND PERFORMANCE TIPS
+===============================================
+
+# 11.1 Use slicing for large data
+# Instead of creating new lists, use views when possible
+def process_chunks(data, chunk_size):
+    """Process data in chunks using slicing"""
+    for i in range(0, len(data), chunk_size):
+        chunk = data[i:i + chunk_size]
+        # Process chunk...
+        yield chunk  # Generator for memory efficiency
+
+# 11.2 Slice assignment for efficiency
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Efficient: modify in place
+arr[2:5] = [30, 40, 50]
+print("Modified in place:", arr)  # [1, 2, 30, 40, 50, 6, 7, 8, 9, 10]
+
+# 11.3 String slicing for text processing
+def clean_text_efficient(text):
+    """Efficient text cleaning using slicing"""
+    # Remove leading/trailing whitespace
+    text = text.strip()
+    
+    # Remove multiple spaces (convert to single space)
+    while '  ' in text:
+        text = text.replace('  ', ' ')
+    
+    return text
+
+===============================================
+SUMMARY - SLICING CHEAT SHEET
+===============================================
+
+Basic Syntax: sequence[start:stop:step]
+
+Key Patterns:
+- arr[:]         → Full copy
+- arr[:n]        → First n elements  
+- arr[n:]        → All from index n
+- arr[-n:]       → Last n elements
+- arr[:-n]       → All except last n
+- arr[::n]       → Every nth element
+- arr[::-1]      → Reverse entire sequence
+- arr[a:b:c]     → From a to b-1, step c
+- arr[-a:-b:-1]  → Reverse slice from end
+
+Pro Tips:
+✅ Slicing never throws IndexError (returns empty sequence)
+✅ Use slicing for in-place modifications: arr[:] = new_values
+✅ Negative indices count from the end: arr[-1] is last element
+✅ Step cannot be zero, but can be negative for reverse
+✅ Slicing creates shallow copies of sequences
+✅ Use islice() for memory-efficient iteration over large sequences
+
+Common DSA Applications:
+🔄 Array rotations: arr[k:] + arr[:k]
+🔍 Palindrome check: s == s[::-1]  
+📊 Sliding window: arr[i:i+k]
+🔀 Reverse portions: arr[start:end+1][::-1]
+✂️ Remove elements: arr[:i] + arr[j:]
+
+Remember: Slicing is your Swiss Army knife for sequence manipulation! 🚀
