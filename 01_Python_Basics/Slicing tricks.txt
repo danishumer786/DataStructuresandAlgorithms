@@ -15,6 +15,14 @@ end → kaha tak (but end index excluded hota hai)
 
 step → har kitne element chhod ke agla lena hai
 
+Normal indices left se count hote hain:
+Index:   0 1 2 3 4 5 6 7 8 9
+Value:   0 1 2 3 4 5 6 7 8 9
+
+Negative indices right se count hote hain:
+Index: -10 -9 -8 -7 -6 -5 -4 -3 -2 -1
+Value:   0  1  2  3  4  5  6  7  8  9
+
 # Setup - our test array
 arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
